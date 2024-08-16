@@ -9,6 +9,8 @@ setup: venv-prepare docker-setup
 venv-prepare:
 	@echo "Creating virtual environment and installing dependencies..."
 	@if [ ! -d "$(VENV)" ]; then \
+		sudo apt update; \
+		sudo apt install python3-venv; \
 		python3 -m venv $(VENV); \
 		$(VENV)/bin/pip install -r requirements.txt; \
 	fi
