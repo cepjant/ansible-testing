@@ -1,8 +1,0 @@
-- hosts: myservers
-  tasks:
-    - name: Проверка подключения
-      ping:
-    - name: Установка пакета (например, nginx)
-      apt:
-        name: nginx
-        state: present

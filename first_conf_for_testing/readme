@@ -1,5 +1,0 @@
-Для тестирования ansible запущен докер-контейнер fake-remote-server:
-
-docker run -d -p 2222:22 fake-remote-server
-
-ssh root@localhost -p 2222
