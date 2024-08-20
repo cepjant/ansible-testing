@@ -1,0 +1,18 @@
+- hosts: docker_servers
+
+
+  tasks:
+    - name: remove redis server
+      # apt-get update && apt-get install redis-server
+      ansible.builtin.apt: # имя модуля Ansible
+        name: redis-server
+        state: absent
+      become: yes
+
+    - name: remove git 
+      ansible.builtin.apt: 
+        name: git
+        state: absent
+      become: yes
+
+

@@ -1,7 +1,9 @@
 VENV=env
 IMAGE_NAME=fake-remote-server
-CONTAINER_NAME=fake-remote-server-container
-SSH_PORT=2222
+FIRST_CONTAINER_NAME=fake-remote-server-container_1
+SECOND_CONTAINER_NAME=fake-remote-server-container_2
+FIRST_SSH_PORT=2222
+SECOND_SSH_PORT=2223
 
 # Задачи и зависимости
 setup: venv-prepare docker-setup
@@ -24,14 +26,24 @@ docker-build:
 	fi
 
 docker-run:
-	@echo "Running Docker container..."
-	@if [ -z "$$(docker ps -q -f name=$(CONTAINER_NAME))" ]; then \
-		if [ -n "$$(docker ps -aq -f status=exited -f name=$(CONTAINER_NAME))" ]; then \
-			docker rm $(CONTAINER_NAME); \
+	@echo "Running first Docker container..."
+	@if [ -z "$$(docker ps -q -f name=$(FIRST_CONTAINER_NAME))" ]; then \
+		if [ -n "$$(docker ps -aq -f status=exited -f name=$(FIRST_CONTAINER_NAME))" ]; then \
+			docker rm $(FIRST_CONTAINER_NAME); \
 		fi; \
-		docker run -d --name $(CONTAINER_NAME) -p $(SSH_PORT):22 $(IMAGE_NAME); \
+		docker run -d --name $(FIRST_CONTAINER_NAME) -p $(FIRST_SSH_PORT):22 $(IMAGE_NAME); \
 	else \
-		echo "Docker container $(CONTAINER_NAME) is already running, skipping run."; \
+		echo "Docker container $(FIRST_CONTAINER_NAME) is already running, skipping run."; \
+	fi
+	
+	@echo "Running second Docker container..."
+	@if [ -z "$$(docker ps -q -f name=$(SECOND_CONTAINER_NAME))" ]; then \
+		if [ -n "$$(docker ps -aq -f status=exited -f name=$(SECOND_CONTAINER_NAME))" ]; then \
+			docker rm $(SECOND_CONTAINER_NAME); \
+		fi; \
+		docker run -d --name $(SECOND_CONTAINER_NAME) -p $(SECOND_SSH_PORT):22 $(IMAGE_NAME); \
+	else \
+		echo "Docker container $(SECOND_CONTAINER_NAME) is already running, skipping run."; \
 	fi
 
 docker-setup: docker-build docker-run
