@@ -1,0 +1,47 @@
+- hosts: docker_servers
+
+  tasks: 
+    - name: update apt cache 
+      ansible.builtin.apt:
+        update_cache: yes
+      become: yes
+
+    - name: install git
+      ansible.builtin.apt: 
+        name: git
+        state: present
+      become: yes
+      tags: packages
+
+    - name: install make
+      ansible.builtin.apt:
+        name: make
+        state: latest
+      become: yes
+      tags: packages 
+     
+    - name: install nodejs
+      ansible.builtin.apt:
+        name: nodejs
+        state: present
+      become: yes
+      tags: packages
+
+    - name: add 'sansa' user
+      ansible.builtin.user:
+        name: sansa
+      tags: users
+      become: yes
+
+    - name: add 'arya' user
+      ansible.builtin.user:
+        name: arya
+      tags: users
+      become: yes
+
+    - name: add 'tirion' user
+      ansible.builtin.user:
+        name: tirion
+      tags: users
+      become: yes
+
