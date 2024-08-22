@@ -4,8 +4,8 @@ FIRST_CONTAINER_NAME=fake-remote-server-container_1
 SECOND_CONTAINER_NAME=fake-remote-server-container_2
 FIRST_SSH_PORT=2222
 SECOND_SSH_PORT=2223
+HTTP_PORT=8080
 
-# Задачи и зависимости
 setup: venv-prepare docker-setup
 
 venv-prepare:
@@ -31,7 +31,7 @@ docker-run:
 		if [ -n "$$(docker ps -aq -f status=exited -f name=$(FIRST_CONTAINER_NAME))" ]; then \
 			docker rm $(FIRST_CONTAINER_NAME); \
 		fi; \
-		docker run -d --name $(FIRST_CONTAINER_NAME) -p $(FIRST_SSH_PORT):22 $(IMAGE_NAME); \
+		docker run -d --name $(FIRST_CONTAINER_NAME) -p $(HTTP_PORT):80 -p $(FIRST_SSH_PORT):22 $(IMAGE_NAME); \
 	else \
 		echo "Docker container $(FIRST_CONTAINER_NAME) is already running, skipping run."; \
 	fi
