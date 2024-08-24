@@ -1,0 +1,34 @@
+- hosts: docker_servers
+  vars:
+    nginx_dir: /etc/nginx
+    html_templates_dir: /usr/share/nginx/html
+    nginx_port: 80
+  tasks: 
+    - name: install nginx 
+      ansible.builtin.apt:
+        name: nginx
+        state: latest 
+      become: yes
+
+    - name: update nginx config 
+      ansible.builtin.template: 
+        src: files/nginx.conf
+        dest: "{{nginx_dir}}/nginx.conf"
+      notify: 
+        - restart nginx 
+      become: yes 
+
+    - name: copy index.html
+      ansible.builtin.copy: 
+        src: files/index.html
+        dest: "{{html_templates_dir}}/index.html"
+      become: yes
+
+
+  handlers: 
+    - name: restart nginx 
+      ansible.builtin.service: 
+        name: nginx 
+        state: reloaded
+      become: yes 
+
