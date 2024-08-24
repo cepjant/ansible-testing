@@ -1,0 +1,17 @@
+x-common: &common-setup
+  image: fake-remote-server
+  build: .
+  restart: always 
+
+services:
+  container_1:
+    <<: *common-setup
+    ports: 
+      - "2222:22"
+    
+  container_2: 
+    <<: *common-setup
+    ports:
+      - "2223:22"
+      - "8080:80"
+
