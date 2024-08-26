@@ -1,0 +1,33 @@
+- hosts: docker_servers
+  gather_facts: no
+  vars:
+    users:
+      - jaime
+      - sansa
+      - robert
+  tasks:
+    - name: add users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ users }}"
+      become: yes
+    - name: add gitconfig to users
+      ansible.builtin.template:
+        src: files/.gitconfig.j2
+        dest: "/home/{{ item }}/.gitconfig"
+      become: yes
+      loop: "{{ users }}"
+    - name: Ensure .ssh directory exists
+      ansible.builtin.file:
+        path: "/home/{{ item }}/.ssh"
+        state: directory
+        mode: '0700'
+      loop: "{{ users }}"
+      become: yes
+    - name: add authorized keys
+      ansible.builtin.copy:
+        src: files/authorized_keys
+        dest: "/home/{{ item }}/.ssh/authorized_keys"
+      loop: "{{ users }}"
+      become: yes
