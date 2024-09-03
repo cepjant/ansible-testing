@@ -1,0 +1,17 @@
+---
+# tasks file for 12_role_name
+
+
+- name: add users
+  ansible.builtin.user:
+    name: "{{ username }}"
+    password: "{{ password }}"
+    state: present
+  become: yes
+
+- name: add gitconfig to user
+  ansible.builtin.template: 
+    src: .gitconfig.j2
+    dest: "/home/{{ username }}/.gitconfig"
+  become: yes 
+

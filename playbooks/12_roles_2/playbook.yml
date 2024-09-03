@@ -1,0 +1,10 @@
+- hosts: all 
+  vars_prompt: 
+    - name: "user_password"
+      prompt: "please enter user password"
+      private: yes 
+
+  roles: 
+    - role: 12_role_name
+      vars: 
+        password: "{{ user_password }}"

@@ -1,0 +1,8 @@
+roles:
+  - name: geerlingguy.git 
+    version: 3.0.1 
+  - name: buluma.python_pip
+    version: 24.7.14
+  - name: geerlingguy.postgresql
+    version: 3.5.2
+
