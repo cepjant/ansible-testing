@@ -1,0 +1,10 @@
+- hosts: all 
+  tasks: 
+    - name: show secret_key 
+      ansible.builtin.debug: 
+        msg: "{{ my_secret_key }}" 
+
+    - name: show memtotal 
+      ansible.builtin.debug: 
+        msg: "{{ ansible_facts['memtotal_mb'] }}"
+

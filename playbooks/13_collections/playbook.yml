@@ -1,0 +1,21 @@
+- hosts: all
+  
+  tasks: 
+    - name: install nginx 
+      ansible.builtin.apt: 
+        name: nginx
+        state: latest
+      become: yes 
+
+    - name: add user `charlie`
+      ansible.builtin.user: 
+        name: charlie
+        state: present
+      become: yes 
+
+    - name: add authorized_key 
+      ansible.posix.authorized_key: 
+        user: charlie 
+        state: present
+        key: "{{ lookup('file', 'files/id_rsa.pub') }}" 
+      become: yes 
